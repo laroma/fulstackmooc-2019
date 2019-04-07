@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom';
 
 const Header = props => <h1>{props.course}</h1>;
 
+const Part = props => (
+  <p>
+    {props.name} {props.exercise}
+  </p>
+);
+
 const Content = props =>
   props.content.map(course => (
-    <p key={course.name}>
-      {course.name} {course.exercise}
-    </p>
+    <Part key={course.name} name={course.name} exercises={course.exercises} />
   ));
 
 const Total = props => {
   const sum = props.content.reduce((acc, course) => {
-    return acc + course.exercise;
+    return acc + course.exercises;
   }, 0);
 
   return <p>yhteensä {sum} tehtävää</p>;
@@ -23,15 +27,15 @@ const App = () => {
   const content = [
     {
       name: 'Reactin perusteet',
-      exercise: 10
+      exercises: 10
     },
     {
       name: 'Tiedonvälitys propseilla',
-      exercise: 7
+      exercises: 7
     },
     {
       name: 'Komponenttien tila',
-      exercise: 14
+      exercises: 14
     }
   ];
 
