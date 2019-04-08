@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
 
-  const changeHandler = event => setNewName(event.target.value);
+  const nameChangeHandler = event => setNewName(event.target.value);
+  const numberChangeHandler = event => setNewNumber(event.target.value);
 
   const addName = event => {
     event.preventDefault();
@@ -14,9 +16,11 @@ const App = () => {
       alert(`${newName} on jo luettelossa`);
       return;
     }
-    console.log('existing', existing);
-    setPersons(persons.concat({ name: newName }));
+
+    setPersons(persons.concat({ name: newName, number: newNumber }));
+
     setNewName('');
+    setNewNumber('');
   };
 
   return (
@@ -24,7 +28,10 @@ const App = () => {
       <h2>Puhelinluettelo</h2>
       <form onSubmit={addName}>
         <div>
-          nimi: <input value={newName} onChange={changeHandler} />
+          nimi: <input value={newName} onChange={nameChangeHandler} />
+        </div>
+        <div>
+          numero: <input value={newNumber} onChange={numberChangeHandler} />
         </div>
         <div>
           <button type="submit">lisää</button>
@@ -32,7 +39,9 @@ const App = () => {
       </form>
       <h2>Numerot</h2>
       {persons.map(person => (
-        <p key={person.name}>{person.name}</p>
+        <p key={person.name}>
+          {person.name} {person.number}
+        </p>
       ))}
     </div>
   );
