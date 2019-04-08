@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -38,31 +41,20 @@ const App = () => {
     setNewNumber('');
   };
 
-  const personList = list =>
-    list.map(person => (
-      <p key={person.name}>
-        {person.name} {person.number}
-      </p>
-    ));
-
   return (
     <div>
       <h1>Puhelinluettelo</h1>
-      rajaa näytettäviä: <input value={search} onChange={searchChangeHandler} />
+      <Filter value={search} handler={searchChangeHandler} />
       <h2>lisää uusi</h2>
-      <form onSubmit={addName}>
-        <div>
-          nimi: <input value={newName} onChange={nameChangeHandler} />
-        </div>
-        <div>
-          numero: <input value={newNumber} onChange={numberChangeHandler} />
-        </div>
-        <div>
-          <button type="submit">lisää</button>
-        </div>
-      </form>
+      <PersonForm
+        submitHandler={addName}
+        name={newName}
+        nameChangeHandler={nameChangeHandler}
+        number={newNumber}
+        numberChangeHandler={numberChangeHandler}
+      />
       <h2>Numerot</h2>
-      {personList(searchResults.length > 0 ? searchResults : persons)}
+      <Persons persons={search !== '' ? searchResults : persons} />
     </div>
   );
 };
