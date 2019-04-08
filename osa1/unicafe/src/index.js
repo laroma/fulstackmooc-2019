@@ -26,6 +26,9 @@ const Statistics = ({ good, neutral, bad }) => {
   const avg = (good - bad) / sum || 0;
   const goodines = (good / sum) * 100 || 0;
 
+  if (sum === 0) {
+    return <p>Ei yhtään palautetta annettu</p>;
+  }
   return (
     <div>
       <h1>Statistiikka</h1>
