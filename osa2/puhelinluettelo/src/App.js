@@ -8,6 +8,13 @@ const App = () => {
 
   const addName = event => {
     event.preventDefault();
+    const existing = persons.find(person => person.name === newName);
+
+    if (existing) {
+      alert(`${newName} on jo luettelossa`);
+      return;
+    }
+    console.log('existing', existing);
     setPersons(persons.concat({ name: newName }));
     setNewName('');
   };
