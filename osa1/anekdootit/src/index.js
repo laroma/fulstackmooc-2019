@@ -8,13 +8,28 @@ const Btn = ({ clickHandler, text }) => (
 const App = props => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(anecdotes.map(() => 0));
-  console.log('selected', selected);
-  console.log('votes', votes);
 
   const vote = () => {
     const newVotes = [...votes];
     newVotes[selected] += 1;
     setVotes(newVotes);
+  };
+
+  const topAnecdote = () => {
+    const topVote = Math.max(...votes);
+    const topIndex = votes.indexOf(topVote);
+
+    if (topVote === 0) {
+      return;
+    }
+
+    return (
+      <>
+        <h1>Anecdote with most votes</h1>
+        <p>{props.anecdotes[topIndex]}</p>
+        <p>has {topVote}</p>
+      </>
+    );
   };
 
   return (
@@ -28,8 +43,12 @@ const App = props => {
         />
         <Btn clickHandler={vote} text="vote" />
       </p>
+
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
+
+      {topAnecdote()}
     </div>
   );
 };
