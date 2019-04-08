@@ -21,6 +21,12 @@ const Feedback = ({
   </div>
 );
 
+const Statistic = ({ text, value, unit }) => (
+  <p>
+    {text} {value} {unit}
+  </p>
+);
+
 const Statistics = ({ good, neutral, bad }) => {
   const sum = good + neutral + bad;
   const avg = (good - bad) / sum || 0;
@@ -32,12 +38,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <div>
       <h1>Statistiikka</h1>
-      <p>hyvä {good}</p>
-      <p>neutraali {neutral}</p>
-      <p>hyvä {bad}</p>
-      <p>yhteensä {sum}</p>
-      <p>keskiarvo {avg}</p>
-      <p>positiivisia {goodines} %</p>
+      <Statistic text="hyvä" value={good} />
+      <Statistic text="neutraali" value={neutral} />
+      <Statistic text="huono" value={bad} />
+      <Statistic text="yhteensä" value={sum} />
+      <Statistic text="keskiarvo" value={avg} />
+      <Statistic text="positiivisia" value={goodines} unit="%" />
     </div>
   );
 };
