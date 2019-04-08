@@ -21,14 +21,23 @@ const Feedback = ({
   </div>
 );
 
-const Statistics = ({ good, neutral, bad }) => (
-  <div>
-    <h1>Statistiikka</h1>
-    <p>hyvä {good}</p>
-    <p>neutraali {neutral}</p>
-    <p>hyvä {bad}</p>
-  </div>
-);
+const Statistics = ({ good, neutral, bad }) => {
+  const sum = good + neutral + bad;
+  const avg = (good - bad) / sum || 0;
+  const goodines = (good / sum) * 100 || 0;
+
+  return (
+    <div>
+      <h1>Statistiikka</h1>
+      <p>hyvä {good}</p>
+      <p>neutraali {neutral}</p>
+      <p>hyvä {bad}</p>
+      <p>yhteensä {sum}</p>
+      <p>keskiarvo {avg}</p>
+      <p>positiivisia {goodines} %</p>
+    </div>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
