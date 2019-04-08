@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Button, Badge } from 'reactstrap';
 
-const Button = ({ clickHandler, text }) => (
-  <button onClick={clickHandler}>{text}</button>
+const Btn = ({ clickHandler, text, color }) => (
+  <Button onClick={clickHandler} color={color || 'primary'}>
+    {text}
+  </Button>
 );
 
 const Feedback = ({
@@ -13,18 +17,47 @@ const Feedback = ({
   bad,
   clickBad
 }) => (
-  <div>
-    <h1>Anna palautetta</h1>
-    <Button clickHandler={() => clickGood(good + 1)} text="hyvä" />
-    <Button clickHandler={() => clickNeutral(neutral + 1)} text="neutraali" />
-    <Button clickHandler={() => clickBad(bad + 1)} text="huono" />
-  </div>
+  <Container>
+    <Row>
+      <Col>
+        <h1>Anna palautetta</h1>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Btn
+          clickHandler={() => clickGood(good + 1)}
+          text="hyvä"
+          color="success"
+        />
+      </Col>
+      <Col>
+        <Btn
+          clickHandler={() => clickNeutral(neutral + 1)}
+          text="neutraali"
+          color="warning"
+        />
+      </Col>
+      <Col>
+        <Btn
+          clickHandler={() => clickBad(bad + 1)}
+          text="huono"
+          color="danger"
+        />
+      </Col>
+    </Row>
+  </Container>
 );
 
-const Statistic = ({ text, value, unit }) => (
-  <p>
-    {text} {value} {unit}
-  </p>
+const Statistic = ({ text, value, color, unit }) => (
+  <Row>
+    <Col>{text}</Col>
+    <Col>
+      <Badge color={color || 'primary'}>
+        {value} {unit}
+      </Badge>
+    </Col>
+  </Row>
 );
 
 const Statistics = ({ good, neutral, bad }) => {
@@ -32,19 +65,33 @@ const Statistics = ({ good, neutral, bad }) => {
   const avg = (good - bad) / sum || 0;
   const goodines = (good / sum) * 100 || 0;
 
-  if (sum === 0) {
-    return <p>Ei yhtään palautetta annettu</p>;
-  }
   return (
-    <div>
-      <h1>Statistiikka</h1>
-      <Statistic text="hyvä" value={good} />
-      <Statistic text="neutraali" value={neutral} />
-      <Statistic text="huono" value={bad} />
-      <Statistic text="yhteensä" value={sum} />
-      <Statistic text="keskiarvo" value={avg} />
-      <Statistic text="positiivisia" value={goodines} unit="%" />
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <h2>Statistiikka</h2>
+        </Col>
+      </Row>
+      {sum === 0 ? (
+        <Row>
+          <Col>Ei yhtään palautetta annettu</Col>
+        </Row>
+      ) : (
+        <>
+          <Statistic text="hyvä" value={good} color="success" />
+          <Statistic text="neutraali" value={neutral} color="warning" />
+          <Statistic text="huono" value={bad} color="danger" />
+          <Statistic text="yhteensä" value={sum} />
+          <Statistic text="keskiarvo" value={avg} />
+          <Statistic
+            text="positiivisia"
+            value={goodines}
+            color="success"
+            unit="%"
+          />
+        </>
+      )}
+    </Container>
   );
 };
 
