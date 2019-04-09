@@ -14,12 +14,14 @@ const App = () => {
   }, []);
 
   const searchHandler = event => {
-    const keyword = event.target.value;
-    const filtered = countries.filter(country =>
-      country.name.toLowerCase().includes(keyword.toLowerCase())
-    );
+    filterCountries(event.target.value);
+  };
 
-    setSearch(keyword);
+  const filterCountries = countryName => {
+    const filtered = countries.filter(country =>
+      country.name.toLowerCase().includes(countryName.toLowerCase())
+    );
+    setSearch(countryName);
     setSearchResults(filtered);
   };
 
@@ -48,7 +50,10 @@ const App = () => {
         ))
       ) : searchResults.length <= 10 ? (
         searchResults.map(result => (
-          <p key={result.alpha3Code}>{result.name}</p>
+          <p key={result.alpha3Code}>
+            {result.name}{' '}
+            <button onClick={() => filterCountries(result.name)}>show</button>
+          </p>
         ))
       ) : (
         <p>Too many matches, specify another filter</p>
