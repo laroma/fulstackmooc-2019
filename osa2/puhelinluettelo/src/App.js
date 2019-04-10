@@ -37,18 +37,33 @@ const App = () => {
   const addPerson = event => {
     event.preventDefault();
     const existing = persons.find(person => person.name === newName);
-    const newPerson = { name: newName, number: newNumber };
 
     if (existing) {
-      alert(`${newName} on jo luettelossa`);
-      return;
-    }
+      if (
+        window.confirm(
+          `${existing.name} on jo olemaassa. Korvataanko vanha numero uudella?`
+        )
+      ) {
+        const updatePerson = { ...existing, number: newNumber };
+        personService.update(updatePerson).then(updatedPerson => {
+          setPersons(
+            persons.map(person =>
+              person.id === updatedPerson.id ? updatedPerson : person
+            )
+          );
+          setNewName('');
+          setNewNumber('');
+        });
+      }
+    } else {
+      const newPerson = { name: newName, number: newNumber };
 
-    personService.create(newPerson).then(createdPerson => {
-      setPersons(persons.concat(createdPerson));
-      setNewName('');
-      setNewNumber('');
-    });
+      personService.create(newPerson).then(createdPerson => {
+        setPersons(persons.concat(createdPerson));
+        setNewName('');
+        setNewNumber('');
+      });
+    }
   };
 
   return (
