@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/Users/tlaroma/MEGAsync/courses/aalto/fullstackmooc-2019-persons-backend"
 		}
 	]
 }
