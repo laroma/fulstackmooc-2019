@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import personService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,9 +12,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data));
+    personService.getAll().then(allPersons => setPersons(allPersons));
   }, []);
 
   const nameChangeHandler = event => setNewName(event.target.value);
@@ -31,16 +29,18 @@ const App = () => {
   const addName = event => {
     event.preventDefault();
     const existing = persons.find(person => person.name === newName);
+    const newPerson = { name: newName, number: newNumber };
 
     if (existing) {
       alert(`${newName} on jo luettelossa`);
       return;
     }
 
-    setPersons(persons.concat({ name: newName, number: newNumber }));
-
-    setNewName('');
-    setNewNumber('');
+    personService.create(newPerson).then(createdPerson => {
+      setPersons(persons.concat(createdPerson));
+      setNewName('');
+      setNewNumber('');
+    });
   };
 
   return (
