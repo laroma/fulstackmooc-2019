@@ -1,0 +1,22 @@
+.notification {
+    background: grey;
+    color: lightgrey;
+    font-size: 16px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.success {
+    background: darkgreen;
+    color: lightgreen;
+}
+
+.error {
+    background: darkred;
+    color: pink;
+  }
