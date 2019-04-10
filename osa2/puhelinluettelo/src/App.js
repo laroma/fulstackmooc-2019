@@ -21,12 +21,20 @@ const App = () => {
     setSearch(event.target.value);
     setSearchResults(
       persons.filter(person =>
-        person.name.toLowerCase().startsWith(event.target.value.toLowerCase())
+        person.name.toLowerCase().includes(event.target.value.toLowerCase())
       )
     );
   };
 
-  const addName = event => {
+  const deletePerson = person => {
+    if (window.confirm(`Poistetaanko ${person.name} ?`)) {
+      personService.remove(person.id).then(() => {
+        setPersons(persons.filter(p => p.id !== person.id));
+      });
+    }
+  };
+
+  const addPerson = event => {
     event.preventDefault();
     const existing = persons.find(person => person.name === newName);
     const newPerson = { name: newName, number: newNumber };
@@ -49,14 +57,17 @@ const App = () => {
       <Filter value={search} handler={searchChangeHandler} />
       <h2>lisää uusi</h2>
       <PersonForm
-        submitHandler={addName}
+        submitHandler={addPerson}
         name={newName}
         nameChangeHandler={nameChangeHandler}
         number={newNumber}
         numberChangeHandler={numberChangeHandler}
       />
       <h2>Numerot</h2>
-      <Persons persons={search !== '' ? searchResults : persons} />
+      <Persons
+        persons={search !== '' ? searchResults : persons}
+        deleteHandler={deletePerson}
+      />
     </div>
   );
 };
