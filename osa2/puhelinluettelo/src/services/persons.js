@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://sleepy-wildwood-86540.herokuapp.com/api/persons';
+const baseUrl = '/api/persons';
 
 const getAll = () => {
   console.log('getAll');
